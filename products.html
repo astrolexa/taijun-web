@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>產品｜台竣塑膠實業有限公司 Taijun Plastic Co.</title>
+<meta name="description" content="台竣塑膠全系列沐浴用品：沐浴球、沐浴巾、拉背巾、沐浴手套、香皂袋、濾水網。">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+
+<nav class="nav">
+  <div class="wrap">
+    <a class="brand" href="index.html"><img src="assets/img/logo-icon.png" alt="台竣 logo">台竣塑膠</a>
+    <button class="menu-btn" aria-label="選單">☰</button>
+    <ul>
+      <li><a href="index.html">首頁</a></li>
+      <li><a href="products.html" class="active">產品</a></li>
+      <li><a href="index.html#about">公司介紹</a></li>
+      <li><a href="index.html#contact">聯絡我們</a></li>
+    </ul>
+  </div>
+</nav>
+
+<main class="wrap">
+  <header class="store-head">
+    <h1>全部產品。<span>為每一次沐浴，找到最合適的那一個。</span></h1>
+    <div class="side">想要客製化？<a href="index.html#contact">OEM 洽詢 ›</a></div>
+  </header>
+  <div class="filter" id="filter"></div>
+  <div class="grid" id="grid"></div>
+</main>
+
+<div class="modal" id="modal">
+  <div class="modal-box">
+    <button class="close" aria-label="關閉">×</button>
+    <img src="" alt="">
+    <div class="info"><div class="eyebrow" style="color:var(--accent-dark)"></div><h2></h2><p></p><a class="btn" href="index.html#contact">洽詢此產品</a></div>
+  </div>
+</div>
+
+<footer>
+  <div class="wrap row">
+    <span>Copyright © <span id="year"></span> 台竣塑膠實業有限公司 Taijun Plastic Co. 版權所有。</span>
+    <span><a href="index.html">首頁</a> ｜ <a href="index.html#about">公司介紹</a> ｜ <a href="index.html#contact">聯絡我們</a></span>
+  </div>
+</footer>
+
+<script src="assets/products.js"></script>
+<script src="assets/main.js"></script>
+<script>
+  const filter = document.getElementById('filter');
+  const grid = document.getElementById('grid');
+  const tabs = [{ id: 'all', name: '全部' }, ...CATEGORIES];
+  function render(cat) {
+    filter.innerHTML = tabs.map((t) => `<button data-cat="${t.id}" class="${t.id === cat ? 'on' : ''}">${t.name}</button>`).join('');
+    const list = cat === 'all' ? PRODUCTS : PRODUCTS.filter((p) => p.cat === cat);
+    grid.innerHTML = list.map((p) => cardHTML(p).replace('class="card card-p"', 'class="card card-p reveal"')).join('');
+    observe();
+  }
+  filter.addEventListener('click', (e) => {
+    const b = e.target.closest('button');
+    if (!b) return;
+    history.replaceState(null, '', b.dataset.cat === 'all' ? 'products.html' : `?cat=${b.dataset.cat}`);
+    render(b.dataset.cat);
+  });
+  render(new URLSearchParams(location.search).get('cat') || 'all');
+</script>
+</body>
+</html>

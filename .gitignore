@@ -1,0 +1,4 @@
+source/
+*.psd
+Thumbs.db
+.DS_Store
